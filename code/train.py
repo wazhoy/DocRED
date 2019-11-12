@@ -18,7 +18,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--model_name', type = str, default = 'BiLSTM', help = 'name of the model')
 parser.add_argument('--save_name', type = str)
 # $$$
-parser.add_argument("--data_path", type = int, required=True, default= 0, help= 'choose data set include train and dev')
+parser.add_argument("--data_path", type = str, required=True, default= None, help= 'choose data set include train and dev')
 #
 parser.add_argument('--train_prefix', type = str, default = 'dev_train')
 parser.add_argument('--test_prefix', type = str, default = 'dev_dev')
