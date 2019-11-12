@@ -67,8 +67,8 @@ def init(data_file_name, rel2id, max_length = 512, is_training = True, suffix=''
 
 			train_triple.add((label['h'], label['t']))
 
-
-			if suffix=='_train':
+# ???
+			if suffix =='_train':
 				for n1 in vertexSet[label['h']]:
 					for n2 in vertexSet[label['t']]:
 						fact_in_dev_train.add((n1['name'], n2['name'], rel))
@@ -186,7 +186,7 @@ def init(data_file_name, rel2id, max_length = 512, is_training = True, suffix=''
 
 
 
-init(train_distant_file_name, rel2id, max_length = 512, is_training = True, suffix='')
+# init(train_distant_file_name, rel2id, max_length = 512, is_training = True, suffix='')
 init(train_annotated_file_name, rel2id, max_length = 512, is_training = False, suffix='_train')
 init(dev_file_name, rel2id, max_length = 512, is_training = False, suffix='_dev')
 init(test_file_name, rel2id, max_length = 512, is_training = False, suffix='_test')

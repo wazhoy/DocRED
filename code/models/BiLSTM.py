@@ -49,6 +49,7 @@ class BiLSTM(nn.Module):
 		self.rnn = EncoderLSTM(input_size, hidden_size, 1, True, True, 1 - config.keep_prob, False)
 		self.linear_re = nn.Linear(hidden_size*2, hidden_size)
 
+		# 最终输出层, 把起始词的表示与终止词的表示结合,过线性层,输出分类结果.
 		if self.use_distance:
 			self.dis_embed = nn.Embedding(20, config.dis_size, padding_idx=10)
 			self.bili = torch.nn.Bilinear(hidden_size+config.dis_size, hidden_size+config.dis_size, config.relation_num)

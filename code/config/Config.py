@@ -187,27 +187,36 @@ class Config(object):
 	def get_train_batch(self):
 		random.shuffle(self.train_order)
 
+		# 单词id
 		context_idxs = torch.LongTensor(self.batch_size, self.max_length).cuda()
+		# 每个位置上分别是哪个单词id
 		context_pos = torch.LongTensor(self.batch_size, self.max_length).cuda()
+		# 起始词位置,类似mask.把非起始词的词都盖掉.
 		h_mapping = torch.Tensor(self.batch_size, self.h_t_limit, self.max_length).cuda()
+		# 终止词位置,类似mask,把非终止词的词都盖掉.
 		t_mapping = torch.Tensor(self.batch_size, self.h_t_limit, self.max_length).cuda()
+		# 表明当前两实体间有哪些种关系
 		relation_multi_label = torch.Tensor(self.batch_size, self.h_t_limit, self.relation_num).cuda()
+		# 表明当前两实体间有关系
 		relation_mask = torch.Tensor(self.batch_size, self.h_t_limit).cuda()
-
+		# 表明当前位置
 		pos_idx = torch.LongTensor(self.batch_size, self.max_length).cuda()
-
+		# 表明各个位置上的词都是什么实体(如果词是实体)
 		context_ner = torch.LongTensor(self.batch_size, self.max_length).cuda()
+		# 表明各个位置上的词都是什么符号/标点(前提是当前位置上的不是英文字母)
+		# ? 这维度怎么多了一维
 		context_char_idxs = torch.LongTensor(self.batch_size, self.max_length, self.char_limit).cuda()
-
+		# 表明当前两词间的关系是什么
 		relation_label = torch.LongTensor(self.batch_size, self.h_t_limit).cuda()
 
-
+		# 表明起始词与终点词间的距离
 		ht_pair_pos = torch.LongTensor(self.batch_size, self.h_t_limit).cuda()
 
 		for b in range(self.train_batches):
 			start_id = b * self.batch_size
 			cur_bsz = min(self.batch_size, self.train_len - start_id)
 			cur_batch = list(self.train_order[start_id: start_id + cur_bsz])
+			# ?
 			cur_batch.sort(key=lambda x: np.sum(self.data_train_word[x]>0) , reverse = True)
 
 			for mapping in [h_mapping, t_mapping]:
@@ -268,11 +277,12 @@ class Config(object):
 						relation_multi_label[i, j, r] = 1
 
 					relation_mask[i, j] = 1
+					# ? rt 多个关系时,随机一个?
 					rt = np.random.randint(len(label))
 					relation_label[i, j] = label[rt]
 
 
-
+				# 添加一部分负例
 				lower_bound = len(ins['na_triple'])
 				# random.shuffle(ins['na_triple'])
 				# lower_bound = max(20, len(train_tripe)*3)
