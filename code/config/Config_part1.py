@@ -44,7 +44,7 @@ class Config(object):
 		self.acc_NA = Accuracy()
 		self.acc_not_NA = Accuracy()
 		self.acc_total = Accuracy()
-		self.data_path = './prepro_data_p1'
+		self.data_path = './prepro_data_p7'
 		self.use_bag = False
 		self.use_gpu = True
 		self.is_training = True
