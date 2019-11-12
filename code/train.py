@@ -46,10 +46,12 @@ elif args.config_num == 4:
 elif args.config_num == 5:
 	con = config.Config_part5(args)
 assert con
+
 #
 con = config.Config(args)
 con.set_max_epoch(200)
 con.load_train_data()
 con.load_test_data()
 # con.set_train_model()
+print("args.config_num:{}".format(args.config_num))
 con.train(model[args.model_name], args.save_name)
